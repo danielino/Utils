@@ -6,7 +6,10 @@
 
 <?php
 $file = $argv[1];
-$asd = csvToArray($file);
+
+print_r(csvToArray($file));
+
+
 
 function csvToArray($file){
 	if(isset($file) && $file != "" && is_file($file)){
@@ -31,9 +34,9 @@ function csvToArray($file){
 			$row_counter++;
 		}
 	}
-//var_dump($csvArray);
-return $csvArray;
+    
+    return $csvArray;
 }
-print_r($asd);
+
 
 ?>
