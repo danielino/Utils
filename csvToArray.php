@@ -11,31 +11,29 @@ print_r(csvToArray($file));
 
 
 
-function csvToArray($file){
-	if(isset($file) && $file != "" && is_file($file)){
-            
-		$fp = fopen($file,'r');
-		/* 2D array[riga][colonna][valore] */
-		$csvArray = array(array(array()));
-				
-		/* contatore righe */
-		$col_counter = 0;
-		/* contatore colonne */
-		$row_counter = 0;
-		$headLine = fgetcsv($fp,10000,';');
-		$csvArray[$row_counter][$col_counter] = array();
-		while (($line = fgetcsv($fp,10000,';')) !== false) {
-			foreach($line as $column){
-				$pointerHeadLine = str_replace('ÿþ',"",$headLine[$col_counter]);
-				$csvArray[$row_counter][$pointerHeadLine] = $column;
-				$col_counter++;
-			}
-			$col_counter = 0;
-			$row_counter++;
-		}
-	}
-    
-    return $csvArray;
+function csvToArray($filename='', $delimiter=',')
+{
+        if(!file_exists($filename) || !is_readable($filename))
+            return false;
+        
+        $header = NULL;
+        $data = array();
+
+        if ( $fp = fopen($filename, 'r') )
+        {
+            while ( $row = fgetcsv($handle, 1000, $delimiter) )
+            {
+                if(count($row) < 1)
+                    continue;
+
+                if(!$header)
+                    $header = $row;
+                 else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($fp);
+        }
+        return $data;
 }
 
 
