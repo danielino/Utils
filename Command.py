@@ -1,6 +1,8 @@
 import logging, sys
 logging.basicConfig(level=logging.DEBUG)
 
+class CommandNotFoundException(Exception): pass
+
 class Command:
 
     @staticmethod
@@ -24,7 +26,7 @@ class Command:
         if isinstance(output, str):
             if re.compile(".+command not found").findall(output):
                 logger.debug("command not found")
-                raise Exception(output)
+                raise CommandNotFoundException(output)
             if '\n' in output:
                 logger.debug("splitting lines")
                 out = output.split('\n')
