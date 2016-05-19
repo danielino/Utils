@@ -3,19 +3,24 @@ import re
 
 HOSTS_FILE="/etc/hosts"
 
-def getAll():
+def getAll(json=False):
     with open(HOSTS_FILE) as fp:
         rl = fp.readlines()
     tmp = []
     for i in rl:
-        i = re.sub('#\w.+', '', i)
-        it = i.split()
-        tmp.append({
-            "ip" : it[0],
-            "hostname" : it[1],
-            "alias" : it[1:]
-        })
+        if not i.startswith('#') and not i.startswith('\n'):
+            i = re.sub('#\w.+', '', i)
+            it = i.split()
+            tmp.append({
+                "ip" : it[0],
+                "hostname" : it[1],
+                "alias" : it[1:]
+            })
 
+    if json:
+        import json
+        return json.dumps(tmp)
+    return tmp
 
 def checkEntry(needle):
     r = getAll()
