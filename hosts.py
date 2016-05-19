@@ -11,10 +11,14 @@ def getAll(json=False):
         if not i.startswith('#') and not i.startswith('\n'):
             i = re.sub('#\w.+', '', i)
             it = i.split()
+            if len(it) > 2:
+                alias = it[2:]
+            else:
+                alias = []
             tmp.append({
                 "ip" : it[0],
                 "hostname" : it[1],
-                "alias" : it[1:]
+                "alias" : alias
             })
 
     if json:
