@@ -22,8 +22,8 @@ def getAll(json=False):
             })
 
     if json:
-        import json
-        return json.dumps(tmp)
+        from json import dumps as json_dumps
+        return json_dumps(tmp)
     return tmp
 
 def checkEntry(needle):
